@@ -7,7 +7,7 @@ def test_schedule():
     nhl_instance = nhl()
     response = nhl_instance.schedule_today()
 
-    assert isinstance(response, list), "Schedule must be of type list"
+    assert isinstance(response, object), "Schedule must be of type object"
     # need to add many more tests
 
 

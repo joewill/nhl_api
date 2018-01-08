@@ -1,4 +1,6 @@
 import requests
+import json
+from collections import namedtuple
 
 
 class nhl():
@@ -9,11 +11,15 @@ class nhl():
     def schedule_today(self):
         path = self.endpoint + '/schedule'
 
-        schedule = requests.get(path)
-        schedule.raise_for_status()
+        data = requests.get(path)
+        data.raise_for_status()
 
-        return schedule.json()['dates']
+        schedule = json.loads(data.text, object_hook=lambda s: namedtuple(
+            'schedule', s.keys())(*s.values()))
 
+        return schedule
+
+#x = json.loads(data, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
     def standings(self):
         path = self.endpoint + '/standings'
 
