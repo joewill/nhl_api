@@ -17,9 +17,8 @@ class nhl():
         schedule = json.loads(data.text, object_hook=lambda s: namedtuple(
             'schedule', s.keys())(*s.values()))
 
-        return schedule
+        return schedule.dates[0].games
 
-#x = json.loads(data, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
     def standings(self):
         path = self.endpoint + '/standings'
 
@@ -27,3 +26,19 @@ class nhl():
         standings.raise_for_status()
 
         return standings.json()
+
+    def team(self, id):
+        path = self.endpoint + '/teams/{}'.format(id)
+
+        team = requests.get(path)
+        team.raise_for_status()
+
+        return team.json()
+
+    def player(self, id):
+        path = self.endpoint + '/people/{}'.format(id)
+
+        player = requests.get(path)
+        player.raise_for_status()
+
+        return player.json()
